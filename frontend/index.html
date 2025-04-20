@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sabor Express</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .logo-text {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      .transition-all {
+        transition: all 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Cabeçalho -->
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-blue-800 logo-text">
+          SABOR EXPRESS
+        </h1>
+        <p class="text-lg text-gray-600">
+          Sistema de Gerenciamento de Restaurantes
+        </p>
+      </header>
+
+      <!-- Áreas da aplicação (serão exibidas/ocultadas via JavaScript) -->
+      <div
+        id="area-menu-principal"
+        class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg"
+      >
+        <h2
+          class="text-2xl font-bold text-center mb-6 bg-blue-100 py-2 rounded"
+        >
+          Menu Principal
+        </h2>
+        <div class="flex flex-col space-y-4">
+          <button
+            id="btn-cadastrar"
+            class="bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-all"
+          >
+            1. Cadastrar restaurante
+          </button>
+          <button
+            id="btn-listar"
+            class="bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-all"
+          >
+            2. Listar restaurantes
+          </button>
+          <button
+            id="btn-alternar"
+            class="bg-yellow-600 text-white py-3 px-4 rounded-lg hover:bg-yellow-700 transition-all"
+          >
+            3. Alternar status dos restaurantes
+          </button>
+          <button
+            id="btn-sair"
+            class="bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-all"
+          >
+            4. Sair
+          </button>
+        </div>
+      </div>
+
+      <!-- Área de Cadastro de Restaurante -->
+      <div
+        id="area-cadastro"
+        class="hidden max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg"
+      >
+        <h2
+          class="text-2xl font-bold text-center mb-6 bg-blue-100 py-2 rounded"
+        >
+          Cadastrar Restaurante
+        </h2>
+        <div
+          id="mensagem-erro"
+          class="hidden bg-red-100 text-red-700 p-3 rounded mb-4"
+        ></div>
+
+        <form id="form-cadastro">
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Nome do restaurante:</label>
+            <input
+              type="text"
+              id="nome-restaurante"
+              class="w-full p-2 border border-gray-300 rounded"
+              placeholder="Digite o nome do restaurante"
+              required
+            />
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-gray-700 mb-2">Categoria:</label>
+            <input
+              type="text"
+              id="categoria-restaurante"
+              class="w-full p-2 border border-gray-300 rounded"
+              placeholder="Digite a categoria do restaurante"
+              required
+            />
+          </div>
+
+          <div class="flex space-x-4">
+            <button
+              type="submit"
+              class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-all flex-1"
+            >
+              Cadastrar
+            </button>
+            <button
+              type="button"
+              id="btn-voltar-cadastro"
+              class="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition-all flex-1"
+            >
+              Voltar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Área de Sucesso após cadastro -->
+      <div
+        id="area-sucesso-cadastro"
+        class="hidden max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg"
+      >
+        <div
+          class="bg-green-100 text-green-700 p-4 rounded-lg mb-6 text-center"
+        >
+          <h2 class="text-xl font-bold">Restaurante cadastrado com sucesso!</h2>
+          <p id="mensagem-sucesso"></p>
+        </div>
+
+        <div class="flex space-x-4">
+          <button
+            id="btn-novo-cadastro"
+            class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-all flex-1"
+          >
+            Cadastrar novo restaurante
+          </button>
+          <button
+            id="btn-menu-apos-cadastro"
+            class="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition-all flex-1"
+          >
+            Menu principal
+          </button>
+        </div>
+      </div>
+
+      <!-- Área de Listagem de Restaurantes -->
+      <div
+        id="area-listagem"
+        class="hidden max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg"
+      >
+        <h2
+          class="text-2xl font-bold text-center mb-6 bg-green-100 py-2 rounded"
+        >
+          Lista de Restaurantes
+        </h2>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white">
+            <thead class="bg-gray-800 text-white">
+              <tr>
+                <th class="py-3 px-4 text-left">Nome do restaurante</th>
+                <th class="py-3 px-4 text-left">Categoria</th>
+                <th class="py-3 px-4 text-left">Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-restaurantes" class="text-gray-700">
+              <!-- Aqui serão injetados os dados dos restaurantes -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6">
+          <button
+            id="btn-voltar-listagem"
+            class="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition-all"
+          >
+            Voltar ao menu principal
+          </button>
+        </div>
+      </div>
+
+      <!-- Área de Alternância de Status -->
+      <div
+        id="area-alternar-status"
+        class="hidden max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg"
+      >
+        <h2
+          class="text-2xl font-bold text-center mb-6 bg-yellow-100 py-2 rounded"
+        >
+          Alternar Status do Restaurante
+        </h2>
+
+        <div class="overflow-x-auto mb-6">
+          <table class="min-w-full bg-white">
+            <thead class="bg-gray-800 text-white">
+              <tr>
+                <th class="py-3 px-4 text-left">Nome do restaurante</th>
+                <th class="py-3 px-4 text-left">Categoria</th>
+                <th class="py-3 px-4 text-left">Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-alternar-status" class="text-gray-700">
+              <!-- Aqui serão injetados os dados dos restaurantes -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="mensagem-alteracao" class="hidden my-4 p-3 rounded"></div>
+
+        <div class="flex items-center space-x-4 mb-6">
+          <select
+            id="select-restaurante"
+            class="flex-1 p-2 border border-gray-300 rounded"
+          >
+            <option value="">Selecione um restaurante</option>
+            <!-- Opções serão populadas via JavaScript -->
+          </select>
+
+          <button
+            id="btn-alternar-status"
+            class="bg-yellow-600 text-white py-2 px-6 rounded hover:bg-yellow-700 transition-all"
+            disabled
+          >
+            Alternar Status
+          </button>
+        </div>
+
+        <div>
+          <button
+            id="btn-voltar-alternar"
+            class="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition-all"
+          >
+            Voltar ao menu principal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
