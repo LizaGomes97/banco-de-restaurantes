@@ -39,7 +39,7 @@ document
   .addEventListener("click", voltarParaMenuPrincipal);
 document
   .getElementById("btn-novo-cadastro")
-  .addEventListener("click", mostrarTelaDecastro);
+  .addEventListener("click", mostrarTelaDecadastro);
 
 // Formulário de cadastro
 const formCadastro = document.getElementById("form-cadastro");
@@ -62,7 +62,7 @@ function esconderTodasAsAreas() {
   areaAlternarStatus.classList.add("hidden");
 }
 
-function mostrarTelaDecastro() {
+function mostrarTelaDecadastro() {
   esconderTodasAsAreas();
   areaCadastro.classList.remove("hidden");
 
